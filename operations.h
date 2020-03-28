@@ -5,25 +5,25 @@
 
 typedef struct {
 	Item* item;
-	char* op_executed;
+	char* op_type;
 } Operation;
 
-Operation* create_op(Item* n, char* op_executed);
-void destroy_op(Operation* o);
-char* get_type_op(Operation* o);
-Operation* copy_op(Operation* o);
+Operation* create_operation(Item* n, char* op_executed);
+void destroy_operation(Operation* o);
+char* get_type_operation(Operation* o);
+Operation* copy_operation(Operation* o);
 Item* get_item(Operation* o);
 
 typedef struct {
 	Operation* op_list[100];
 	int list_len;
-}Stack_of_op;
+}Operation_stack;
 
-Stack_of_op* create_stack();
-void destroy_stack(Stack_of_op* t);
-void push_to_stack(Stack_of_op* t);
-Operation* pop_op(Stack_of_op* t);
-int verify_empty(Stack_of_op* t);
-int verify_full(Stack_of_op* t);
+Operation_stack* create_stack();
+void destroy_stack(Operation_stack* t);
+void push_to_stack(Operation_stack* t);
+Operation* pop_operation(Operation_stack* t);
+int verify_empty(Operation_stack* t);
+int verify_full(Operation_stack* t);
 
 void stack_tests();
