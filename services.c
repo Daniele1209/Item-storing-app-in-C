@@ -66,10 +66,6 @@ int undo(Service* s) {
 		Item* n = create_item(number, state, type, value); */
 		add_item(s->item_list, n);
 	}
-	else if (strcmp(get_type_operation(o), "update") == 0) {
-		Item* n = get_item(o);
-		add_item(s->item_list, n);
-	}
 
 	destroy_operation(o);
 	
