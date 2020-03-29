@@ -35,9 +35,9 @@ Item_repo* get_repo(Service* s) {
 void remove_item(Service* s, int number) {
 	delete_item(s->item_list, number);
 
-	Operation* o = create_operation(n, "delete");
-	push(s->undo_stack, o);
-	destroy_operation(o);
+	//Operation* o = create_operation(item, "delete");
+	//push(s->undo_stack, o);
+	//destroy_operation(o);
 }
 
 void add_items_default(Service* s) {
@@ -45,10 +45,12 @@ void add_items_default(Service* s) {
 }
 
 int undo(Service* s) {
-	if (stack_empty(s->undo_stack))
+	if (verify_empty(s->undo_stack));
+	//printf("isempty\n");
 		return 0;
 
 	Operation* o = pop(s->undo_stack);
+	//printf("%s\n", get_type_operation(o));
 	if (strcmp(get_type_operation(o), "add") == 0) {
 		Item* n = get_item(o);
 		int number;
@@ -69,5 +71,9 @@ int undo(Service* s) {
 
 	destroy_operation(o);
 	
+	return 1;
+}
+
+int redo(Service* s) {
 	return 1;
 }

@@ -3,11 +3,11 @@
 #include <stdlib.h>
 #include <assert.h>
 
-Operation* creaate_operation(Item* n, char* op_type) {
+Operation* create_operation(Item* n, char* op_type) {
 	Operation* o = (Operation*)malloc(sizeof(Operation));
-	o->item = copy_op(n);
+	o->item = new_item(n);
 	if (op_type != NULL) {
-		o->op_type = (char*)malloc(sizeof(char*) * (strlen(op_type) + 1));
+		o->op_type = (char*)malloc(sizeof(char) * (strlen(op_type) + 1));
 		strcpy(o->op_type, op_type);
 	}
 	else {
@@ -20,7 +20,7 @@ void destroy_operation(Operation* o) {
 	if (o == NULL)
 		return;
 	destroy_item(o->item);
-	dree(o->op_type);
+	free(o->op_type);
 	free(o);
 }
 
@@ -38,17 +38,31 @@ Item* get_item(Operation* o) {
 
 Operation_stack* create_stack() {
 	Operation_stack* os = (Operation_stack*)malloc(sizeof(Operation_stack));
-	os->list_len = 0;
+	os->list_len = 1;
 	return os;
 }
 
+void destroy_stack(Operation_stack* os) {
+	if (os == NULL) {
+		return;
+	}
+	for (int i = 0; i < os->list_len; i++) {
+		destroy_operation(os->op_list);
+	}
+	free(os);
+}
+
 void push(Operation_stack* os, Operation* o) {
-	//to do
+	printf("%s\n", os->op_list[os->list_len]);
+	os->op_list[os->list_len] = get_item(o);
+	os->list_len += 1;
 }
 
 Operation* pop(Operation_stack* os) {
-	//to do
-	return NULL;
+	if (os->list_len == -1)
+		return;
+	os->list_len -= 1;
+	return os->op_list[os->list_len];
 }
 
 int verify_empty(Operation_stack* os) {

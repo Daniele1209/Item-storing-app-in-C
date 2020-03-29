@@ -1,6 +1,7 @@
 #include "UI.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #define _CRT_SECURE_NO_WARNINGS
 
 UI* create_UI(Service* s)
@@ -14,6 +15,26 @@ UI* create_UI(Service* s)
 void destroy_UI(UI* ui) {
 	destroy_service(ui->services);
 	free(ui);
+}
+
+int is_valid_int(const char* str)
+{
+
+	if (*str == '-')
+		++str;
+
+	if (!*str)
+		return 0;
+
+	while (*str)
+	{
+		if (!isdigit(*str))
+			return 0;
+		else
+			++str;
+	}
+
+	return 1;
 }
 
 void add_fct(char* command, UI* ui) {
@@ -76,8 +97,8 @@ void delete_fct(char *command, UI* ui) {
 	for (int i = 0; i < lenn; i++) {
 		Item* item = get_item_position(repo, i);
 		if (get_number(item) == number) {
+			remove_item(ui->services, i, item);
 			destroy_item(item);
-			remove_item(ui->services, i);
 			ok = 0;
 		}
 	}
@@ -169,6 +190,40 @@ void list_type_fct(char *command, UI* ui) {
 
 }
 
+void undo_fct(UI* ui) {
+	int x = undo(ui->services);
+	if (x == 1)
+		printf("Undo successful !\n");
+	else
+		printf("No more undos\n");
+}
+
+void redo_fct(UI* ui) {
+	redo(ui->services);
+}
+
+void filter_fct(char* command, UI* ui) {
+	int ok = 1;
+	if (ui == NULL)
+		return;
+	char* d = strtok(command, " ");
+	d = strtok(NULL, "");
+	int max_value = atoi(d);
+	Item_repo* repo = get_repo(ui->services);
+	int lenn = get_list_length(repo);
+	for (int i = 0; i < lenn; i++) {
+		Item* item = get_item_position(repo, i);
+		if (get_value(item) < max_value) {
+			char item_str[100];
+			print_message(item, item_str);
+			printf("%s\n", item_str);
+			ok = 0;
+		}
+	}
+	if (ok == 1)
+		printf("No!\n");
+}
+
 void add_some_enteries(UI* ui) {
 	add_items_default(ui->services);
 }
@@ -200,8 +255,19 @@ void UI_console(UI* ui) {
 				list_fct(ui);
 			}
 			else {
-				list_type_fct(cmd, ui);
+				if (is_valid_int(command) == 0) {
+					list_type_fct(cmd, ui);
+				}
+				else {
+					filter_fct(cmd, ui);
+				}
 			}
+		}
+		else if (strcmp(command, "undo") == 0) {
+			undo_fct(ui);
+		}
+		else if (strcmp(command, "redo") == 0) {
+			redo_fct(ui);
 		}
 		else if (strcmp(command, "exit") == 0) {
 			ok = 0;

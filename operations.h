@@ -14,16 +14,17 @@ char* get_type_operation(Operation* o);
 Operation* copy_operation(Operation* o);
 Item* get_item(Operation* o);
 
+
 typedef struct {
 	Operation* op_list[100];
 	int list_len;
 }Operation_stack;
 
 Operation_stack* create_stack();
-void destroy_stack(Operation_stack* t);
-void push_to_stack(Operation_stack* t);
-Operation* pop_operation(Operation_stack* t);
-int verify_empty(Operation_stack* t);
-int verify_full(Operation_stack* t);
+void destroy_stack(Operation_stack* os);
+void push(Operation_stack* os, Operation* o);
+Operation* pop(Operation_stack* os);
+int verify_empty(Operation_stack* os);
+int verify_full(Operation_stack* os);
 
 void stack_tests();
