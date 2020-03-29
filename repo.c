@@ -72,7 +72,7 @@ int undo_repo(Item_repo* r) {
 }
 
 int redo_repo(Item_repo* r) {
-	if (r->index++ >= r->history->len)
+	if (r->index+1 >= r->history->len)
 		return 0;
 	destroy_array(r->items);
 	r->index++;

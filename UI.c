@@ -191,11 +191,13 @@ void list_type_fct(char *command, UI* ui) {
 }
 
 void undo_fct(UI* ui) {
-	undo_srv(ui->services);
+	if (!undo_srv(ui->services))
+		printf("Can't undo !\n");
 }
 
 void redo_fct(UI* ui) {
-	redo_srv(ui->services);
+	if(!redo_srv(ui->services))
+		printf("Can't redo !\n");
 }
 
 void filter_fct(char* command, UI* ui) {

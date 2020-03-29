@@ -21,8 +21,6 @@ Dynamic_array* create_array(int max_len) {
 int add_an_item(Dynamic_array* ary, TElem t) {
 	if (ary == NULL)
 		return;
-	if (ary->elements == NULL)
-		return;
 	if (ary->len == ary->max_len) {
 		resize_array(ary);
 	}

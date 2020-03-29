@@ -23,8 +23,6 @@ int get_list_length(Item_repo* r);
 
 Item* get_item_position(Item_repo* r, int position);
 
-void add_items_by_default(Item_repo* r);
-
 void save_repo(Item_repo* r);
 
 int undo_repo(Item_repo* r);
