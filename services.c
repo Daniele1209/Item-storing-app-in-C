@@ -2,7 +2,7 @@
 #include <string.h>
 #include "services.h"
 
-Service* create_service(Item_repo* r, Operation_stack* os) {
+Service* create_service(Item_repo* r) {
 	Service* s = (Service*)malloc(sizeof(Service));
 	if (s == NULL)
 		return NULL;
@@ -18,6 +18,12 @@ void destroy_service(Service* s) {
 int add_item_service(Service* s, int number, char* state, char* type, int value) {
 	Item* n = create_item(number, state, type, value);
 	add_item(s -> item_list, n);
+	save_repo(s->item_list);
+}
+
+int update_item(Service* s, int number, char* state, char* type, int value) {
+	Item* new_item = create_item(number, state, type, value);
+	update_repo(s->item_list, new_item);
 	save_repo(s->item_list);
 }
 

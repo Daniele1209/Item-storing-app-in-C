@@ -19,6 +19,8 @@ int add_item(Item_repo* r, Item* n);
 
 void delete_item(Item_repo* r, int number);
 
+int update_repo(Item_repo* r, Item* n);
+
 int get_list_length(Item_repo* r);
 
 Item* get_item_position(Item_repo* r, int position);

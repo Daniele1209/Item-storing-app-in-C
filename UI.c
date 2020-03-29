@@ -144,9 +144,7 @@ void update_fct(char *command, UI* ui) {
 		for (int i = 0; i < lenn; i++) {
 			Item* item = get_item_position(repo, i);
 			if (get_number(item) == number) {
-				destroy_item(item);
-				remove_item(ui->services, i);
-				add_item_service(ui->services, number, state, type, value);
+				update_item(ui->services, number, state, type, value);
 				ok = 0;
 			}
 		}

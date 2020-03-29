@@ -30,6 +30,16 @@ int add_item(Item_repo* r, Item* n) {
 	return 1;
 }
 
+int update_repo(Item_repo* r, Item* n) {
+	for (int i = 0; i < r->items->len; i++)
+		if (get_number(r->items->elements[i]) == n->catalogueNumber)
+		{
+			destroy_item(r->items->elements[i]);
+			r->items->elements[i] = n;
+			break;
+		}
+}
+
 void delete_item(Item_repo* r, int number) {
 	delete_an_item(r->items, number);
 }

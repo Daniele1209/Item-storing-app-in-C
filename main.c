@@ -7,8 +7,7 @@ int main() {
 	//test_repo();
 
 	Item_repo* repo = create_repo();
-	Operation_stack* op_stack = create_stack();
-	Service* services = create_service(repo, op_stack);
+	Service* services = create_service(repo);
 	UI* ui = create_UI(services);
 	UI_console(ui);
 	destroy_UI(ui);
