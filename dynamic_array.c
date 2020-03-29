@@ -71,6 +71,14 @@ TElem get(Dynamic_array* ary, int position) {
 
 }
 
+Dynamic_array* copy_array(Dynamic_array* d) {
+	Dynamic_array* copy = create_array(d->max_len);
+	for (int i = 0; i < d->len; i++) {
+		add_an_item(copy, new_item(d->elements[i]));
+	}
+	return copy;
+}
+
 void destroy_array(Dynamic_array* ary) {
 	if (ary == NULL)
 		return;
@@ -78,7 +86,7 @@ void destroy_array(Dynamic_array* ary) {
 		destroy_item(ary->elements[i]);
 	}
 	free(ary->elements);
-	ary->elements = NULL;
+	//ary->elements = NULL;
 	free(ary);
 
 }

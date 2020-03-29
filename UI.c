@@ -191,15 +191,11 @@ void list_type_fct(char *command, UI* ui) {
 }
 
 void undo_fct(UI* ui) {
-	int x = undo(ui->services);
-	if (x == 1)
-		printf("Undo successful !\n");
-	else
-		printf("No more undos\n");
+	undo_srv(ui->services);
 }
 
 void redo_fct(UI* ui) {
-	redo(ui->services);
+	redo_srv(ui->services);
 }
 
 void filter_fct(char* command, UI* ui) {
@@ -224,12 +220,7 @@ void filter_fct(char* command, UI* ui) {
 		printf("No!\n");
 }
 
-void add_some_enteries(UI* ui) {
-	add_items_default(ui->services);
-}
-
 void UI_console(UI* ui) {
-	add_some_enteries(ui);
 	int ok = 1;
 	while (ok)
 	{

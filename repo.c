@@ -9,7 +9,9 @@ Item_repo* create_repo() {
 		return NULL;
 	}
 	r->items = create_array(LENGTH);
-
+	r->history = create_array(LENGTH);
+	r->index = -1;
+	save_repo(r);
 	return r;
 }
 
@@ -17,6 +19,7 @@ void destroy_repo(Item_repo* r) {
 	if (r == NULL)
 		return;
 	destroy_array(r->items);
+	destroy_array(r->history);
 	free(r);
 }
 
@@ -49,15 +52,33 @@ Item* get_item_position(Item_repo* r, int position) {
 	return get(r->items, position);
 }
 
-void add_items_by_default(Item_repo* r) {
-	Item* item_1 = create_item(01, "nice", "axe", 14);
-	Item* item_2 = create_item(02, "ok", "chest", 123);
-	Item* item_3 = create_item(03, "damaged", "sword", 56);
-	Item* item_4 = create_item(04, "legendary", "helmet", 120);
-	add_item(r, item_1);
-	add_item(r, item_2);
-	add_item(r, item_3);
-	add_item(r, item_4);
+void save_repo(Item_repo* r) {
+	r->index++;
+	for (int i = r->index; i < r->history->len; i++) {
+		destroy_array(r->history->elements[i]);
+	}
+	r->history->len = r->index;
+	add_an_item(r->history, copy_array(r->items));
+}
+
+int undo_repo(Item_repo* r) {
+	if (r->index <= 0)
+		return 0;
+	destroy_array(r->items);
+	r->index--;
+	r->items = copy_array(r->history->elements[r->index]);
+
+	return 1;
+}
+
+int redo_repo(Item_repo* r) {
+	if (r->index++ >= r->history->len)
+		return 0;
+	destroy_array(r->items);
+	r->index++;
+	r->items = copy_array(r->history->elements[r->index]);
+
+	return 1;
 }
 
 void test_repo() {
