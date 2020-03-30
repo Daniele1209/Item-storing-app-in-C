@@ -1,5 +1,6 @@
 #pragma once
 #include "services.h"
+#define _CRT_SECURE_NO_DEPRECATE
 
 typedef struct
 {

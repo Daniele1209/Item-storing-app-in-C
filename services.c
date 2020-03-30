@@ -11,7 +11,6 @@ Service* create_service(Item_repo* r) {
 }
 
 void destroy_service(Service* s) {
-	destroy_repo(s->item_list);
 	free(s);
 }
 

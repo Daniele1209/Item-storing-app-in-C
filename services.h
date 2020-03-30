@@ -1,5 +1,5 @@
 #include "repo.h"
-#include "operations.h"
+#define _CRT_SECURE_NO_DEPRECATE
 #pragma once
 
 typedef struct {

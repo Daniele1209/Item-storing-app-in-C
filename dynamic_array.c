@@ -5,10 +5,9 @@
 #include <assert.h>
 
 Dynamic_array* create_array(int max_len) {
-	Dynamic_array* d = (Dynamic_array*)malloc(sizeof(Dynamic_array));
-	if (d == NULL) {
+	Dynamic_array* d = malloc(sizeof(Dynamic_array));
+	if (d == NULL) 
 		return NULL;
-	}
 	d->len = 0;
 	d->max_len = max_len;
 	d->elements = (TElem*)malloc(max_len * sizeof(TElem));
@@ -41,7 +40,7 @@ void delete_an_item(Dynamic_array* ary, int item_position) {
 	}
 	ary->len--;
 }
-
+//the function that resizes the dynamic array
 int resize_array(Dynamic_array* ary) {
 	if (ary == NULL) {
 		return -1;
@@ -59,7 +58,7 @@ int resize_array(Dynamic_array* ary) {
 
 	return 0;
 }
-
+//gets the element on the position given
 TElem get(Dynamic_array* ary, int position) {
 	if (ary == NULL)
 		return NULL;
@@ -68,7 +67,7 @@ TElem get(Dynamic_array* ary, int position) {
 	return ary->elements[position];
 
 }
-
+//returns a copy of the dynamic array
 Dynamic_array* copy_array(Dynamic_array* d) {
 	Dynamic_array* copy = create_array(d->max_len);
 	for (int i = 0; i < d->len; i++) {
@@ -76,7 +75,7 @@ Dynamic_array* copy_array(Dynamic_array* d) {
 	}
 	return copy;
 }
-
+//destroys a basic dynamic array
 void destroy_array(Dynamic_array* ary) {
 	if (ary == NULL)
 		return;
@@ -84,31 +83,19 @@ void destroy_array(Dynamic_array* ary) {
 		destroy_item(ary->elements[i]);
 	}
 	free(ary->elements);
-	//ary->elements = NULL;
+	ary->elements = NULL;
 	free(ary);
 
 }
-void test_array() {
-	Dynamic_array* ary = create_array(2);
+//destroys an array of arrays, for example the array "history"
+void destroy_vector(Dynamic_array* ary) {
 	if (ary == NULL)
-		assert(0);
-	//test array length
-	assert(ary->max_len == 2);
-	assert(ary->len == 0);
-
-	Item* item_1 = create_item(01, "good", "sword", 420);
-	add_an_item(ary, item_1);
-	assert(ary->len == 1);
-
-	Item* item_2 = create_item(02, "crap", "armour", 12);
-	add_an_item(ary, item_2);
-	assert(ary->len == 2);
-	
-	//Now, when we try to add one more item, the max_len should resize and from len 2 it should get to len 4 (double its size)
-	Item* item_3 = create_item(03, "quite_good", "helmet", 32);
-	add_an_item(ary, item_3);
-	assert(ary->len == 3);
-	assert(ary->max_len == 4);
-
-	destroy_array(ary);
+		return;
+	for (int i = 0; i < ary->len; i++) {
+		destroy_array(ary->elements[i]);
+	}
+	free(ary->elements);
+	ary->elements = NULL;
+	free(ary);
 }
+

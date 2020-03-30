@@ -1,4 +1,5 @@
 #pragma once
+#define _CRT_SECURE_NO_DEPRECATE
 
 typedef struct {
 	int catalogueNumber, value;

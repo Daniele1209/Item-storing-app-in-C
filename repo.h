@@ -13,8 +13,6 @@ Item_repo* create_repo();
 
 void destroy_repo(Item_repo* r);
 
-Item* search_item(Item_repo* r, int number);
-
 int add_item(Item_repo* r, Item* n);
 
 void delete_item(Item_repo* r, int number);
@@ -31,7 +29,8 @@ int undo_repo(Item_repo* r);
 
 int redo_repo(Item_repo* r);
 
-void test_repo();
+int check(Item_repo* r, int number);
+
 
 
 

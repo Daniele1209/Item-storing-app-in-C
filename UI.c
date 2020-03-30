@@ -13,10 +13,10 @@ UI* create_UI(Service* s)
 }
 
 void destroy_UI(UI* ui) {
-	destroy_service(ui->services);
 	free(ui);
 }
 
+//verify is a given string is a valid number
 int is_valid_int(const char* str)
 {
 
@@ -36,7 +36,7 @@ int is_valid_int(const char* str)
 
 	return 1;
 }
-
+// the add functionality
 void add_fct(char* command, UI* ui) {
 	int ok = 1;
 	int number, value;
@@ -85,19 +85,19 @@ void add_fct(char* command, UI* ui) {
 		if (!add_item_service(ui->services, number, state, type, value))
 			printf("No!\n");
 }
-
-void delete_fct(char *command, UI* ui) {
+//delete functionality
+void delete_fct(char* command, UI* ui) {
 	int ok = 1;
 	if (ui == NULL)
 		return;
 	Item_repo* repo = get_repo(ui->services);
 	int lenn = get_list_length(repo);
-	char *d = strtok(command, " ");
+	char* d = strtok(command, " ");
 	int number = atoi(strtok(NULL, ""));
 	for (int i = 0; i < lenn; i++) {
 		Item* item = get_item_position(repo, i);
 		if (get_number(item) == number) {
-			remove_item(ui->services, i, item);
+			remove_item(ui->services, i);
 			destroy_item(item);
 			ok = 0;
 		}
@@ -105,7 +105,7 @@ void delete_fct(char *command, UI* ui) {
 	if (ok == 1)
 		printf("No!\n");
 }
-
+//update functionality
 void update_fct(char *command, UI* ui) {
 	int ok = 1;
 	int number, value;
@@ -152,20 +152,20 @@ void update_fct(char *command, UI* ui) {
 	if (ok == 1)
 		printf("No!\n");
 }
-
+//prints the list
 void list_fct(UI* ui) {
 	if (ui == NULL)
 		return;
 	Item_repo* repo = get_repo(ui->services);
 	int lenn = get_list_length(repo);
-	for(int i = 0; i < lenn; i++) {
+	for (int i = 0; i < lenn; i++) {
 		Item* item = get_item_position(repo, i);
 		char item_str[100];
 		print_message(item, item_str);
 		printf("%s\n", item_str);
 	}
 }
-
+//prints only the items from list that are a given type
 void list_type_fct(char *command, UI* ui) {
 	int ok = 1;
 	if (ui == NULL)
@@ -185,7 +185,6 @@ void list_type_fct(char *command, UI* ui) {
 	}
 	if (ok == 1)
 		printf("No!\n");
-
 }
 
 void undo_fct(UI* ui) {
@@ -197,7 +196,7 @@ void redo_fct(UI* ui) {
 	if(!redo_srv(ui->services))
 		printf("Can't redo !\n");
 }
-
+//only prints the items that are lower than a given value 
 void filter_fct(char* command, UI* ui) {
 	int ok = 1;
 	if (ui == NULL)
@@ -265,5 +264,4 @@ void UI_console(UI* ui) {
 		}
 		else printf("No!\n");
 	}
-
 }
